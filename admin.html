@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="theme-color" content="#f5efe4">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#f5efe4;-webkit-font-smoothing:antialiased}
+  a{color:#4e5838;text-decoration:none}
+  a:hover{color:#ad8750}
+  input,textarea,select,button{font-family:'DM Sans',sans-serif}
+  input:focus,textarea:focus,select:focus{outline:2px solid rgba(173,135,80,.5);outline-offset:0}
+</style>
+</helmet>
+
+<div style="background:#f5efe4;color:#2b2118;font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column">
+
+  <div style="position:sticky;top:0;z-index:40;background:rgba(245,239,228,.98);border-bottom:1px solid rgba(78,61,42,.22);backdrop-filter:blur(8px)">
+    <div style="max-width:1320px;margin:auto;padding:12px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <img src="assets/logo.png" alt="" style="width:120px;height:auto;mix-blend-mode:multiply">
+      <div style="font:600 10px 'DM Sans',sans-serif;letter-spacing:.22em;text-transform:uppercase;color:#ad8750">Menu Manager</div>
+      <div style="flex:1;min-width:20px"></div>
+      <div style="{{ statusStyle }}">{{ statusText }}</div>
+      <button type="button" onClick="{{ onPreview }}" style="{{ toolbarBtnStyle }}" style-hover="border-color:#ad8750">Preview</button>
+      <button type="button" onClick="{{ onExport }}" style="{{ toolbarBtnStyle }}" style-hover="border-color:#ad8750">Export JSON</button>
+      <button type="button" onClick="{{ onPublish }}" style="{{ publishStyle }}">{{ publishLabel }}</button>
+    </div>
+  </div>
+
+  <div style="{{ shellStyle }}">
+
+    <div style="{{ sidebarStyle }}">
+      <div>
+        <div style="{{ sidebarLabelStyle }}">Manage</div>
+        <div style="{{ navListStyle }}">
+          <sc-for list="{{ views }}" as="v" hint-placeholder-count="5">
+            <button type="button" onClick="{{ v.onClick }}" style="{{ v.style }}">{{ v.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+
+      <sc-if value="{{ isMenuView }}" hint-placeholder-val="{{ true }}">
+        <div>
+          <div style="{{ sectionLabelStyle }}">Sections</div>
+          <div style="{{ sectionListStyle }}">
+            <sc-for list="{{ sectionTabs }}" as="s" hint-placeholder-count="6">
+              <button type="button" onClick="{{ s.onClick }}" style="{{ s.style }}">{{ s.label }}<span style="{{ s.countStyle }}">{{ s.count }}</span></button>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <div style="{{ quickLinksStyle }}">
+        <a href="index.dc.html" target="_blank" rel="noopener" style="font:600 10px 'DM Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase">Live site ↗</a>
+        <a href="qr-cards.dc.html" target="_blank" rel="noopener" style="font:600 10px 'DM Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase">Print QR cards ↗</a>
+      </div>
+    </div>
+
+    <div style="{{ bodyStyle }}">
+
+      <sc-if value="{{ loading }}" hint-placeholder-val="{{ true }}">
+        <div style="color:#75695a;font:400 18px 'Cormorant Garamond',serif;padding:40px 0">Loading the menu…</div>
+      </sc-if>
+
+      <sc-if value="{{ loadError }}" hint-placeholder-val="{{ false }}">
+        <div style="border:1px solid #a2543a;background:rgba(162,84,58,.07);padding:18px 20px;color:#7c3f2b;font:400 14px/1.5 'DM Sans',sans-serif">Couldn't load <strong>data/menu.json</strong> — {{ loadError }}</div>
+      </sc-if>
+
+      <sc-if value="{{ isMenuView }}" hint-placeholder-val="{{ true }}">
+        <div>
+          <div style="display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:6px">
+            <h1 style="font:600 clamp(30px,4vw,42px) 'Cormorant Garamond',serif;margin:0;color:#563b28;text-transform:uppercase;letter-spacing:.02em">{{ currentSectionTitle }}</h1>
+            <div style="flex:1;min-width:20px"></div>
+            <button type="button" onClick="{{ onAddItem }}" style="background:#4e5838;color:#fffdf8;border:none;font:600 11px 'DM Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;padding:12px 20px;cursor:pointer" style-hover="background:#68704a">+ Add item</button>
+          </div>
+          <p style="margin:0 0 14px;color:#75695a;font:italic 16px/1.4 'Cormorant Garamond',serif;max-width:60ch">{{ currentSectionIntro }}</p>
+
+          <label style="display:flex;flex-direction:column;gap:6px;max-width:520px;margin-bottom:22px">
+            <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Section photo — shows as this section's header image on the site</span>
+            <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+              <div style="{{ sectionPhotoThumbStyle }}"></div>
+              <input type="text" value="{{ sectionPhoto }}" onChange="{{ onSectionPhoto }}" placeholder="assets/photos/coffee.jpeg or a full URL" style="flex:1;min-width:200px;border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:9px 11px;font:400 13px 'DM Sans',sans-serif;color:#2b2118">
+            </div>
+          </label>
+
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <sc-for list="{{ items }}" as="it" hint-placeholder-count="5">
+              <div style="{{ it.cardStyle }}">
+                <div style="{{ it.topRowStyle }}">
+                  <div style="{{ it.titleRowStyle }}">
+                    <div style="min-width:0">
+                      <div style="{{ it.nameStyle }}">{{ it.name }}</div>
+                      <div style="font:400 12px/1.4 'DM Sans',sans-serif;color:#75695a;margin-top:3px">{{ it.summary }}</div>
+                    </div>
+                    <div style="{{ it.priceStyle }}">{{ it.price }}</div>
+                  </div>
+                  <div style="{{ it.actionRowStyle }}">
+                    <button type="button" onClick="{{ it.onToggleSoldOut }}" style="{{ it.soldOutStyle }}">Sold out</button>
+                    <button type="button" onClick="{{ it.onToggleHidden }}" style="{{ it.hiddenStyle }}">Hidden</button>
+                    <button type="button" onClick="{{ it.onEdit }}" style="{{ it.editBtnStyle }}" style-hover="border-color:#ad8750">{{ it.editLabel }}</button>
+                  </div>
+                </div>
+
+                <sc-if value="{{ it.open }}" hint-placeholder-val="{{ false }}">
+                  <div style="margin-top:18px;padding-top:18px;border-top:1px dotted rgba(78,61,42,.3);display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px">
+                    <label style="display:flex;flex-direction:column;gap:6px;grid-column:1/-1">
+                      <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Item name</span>
+                      <input type="text" value="{{ it.f.name }}" onChange="{{ it.set.name }}" style="border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:10px 12px;font:400 15px 'DM Sans',sans-serif;color:#2b2118">
+                    </label>
+                    <label style="display:flex;flex-direction:column;gap:6px">
+                      <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Price</span>
+                      <input type="text" value="{{ it.f.price }}" onChange="{{ it.set.price }}" placeholder="₹190 / ₹230" style="border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:10px 12px;font:400 15px 'DM Sans',sans-serif;color:#2b2118">
+                    </label>
+                    <label style="display:flex;flex-direction:column;gap:6px">
+                      <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Badge (optional)</span>
+                      <input type="text" value="{{ it.f.tag }}" onChange="{{ it.set.tag }}" placeholder="House Signature" style="border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:10px 12px;font:400 15px 'DM Sans',sans-serif;color:#2b2118">
+                    </label>
+                    <label style="display:flex;flex-direction:column;gap:6px;grid-column:1/-1">
+                      <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Description</span>
+                      <textarea rows="3" value="{{ it.f.desc }}" onChange="{{ it.set.desc }}" style="border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:10px 12px;font:400 15px/1.45 'DM Sans',sans-serif;color:#2b2118;resize:vertical"></textarea>
+                    </label>
+                    <label style="display:flex;flex-direction:column;gap:6px">
+                      <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Variant chips · comma separated</span>
+                      <input type="text" value="{{ it.f.variants }}" onChange="{{ it.set.variants }}" placeholder="Veg, Chicken" style="border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:10px 12px;font:400 15px 'DM Sans',sans-serif;color:#2b2118">
+                    </label>
+                    <label style="display:flex;flex-direction:column;gap:6px">
+                      <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Add-on line</span>
+                      <input type="text" value="{{ it.f.addon }}" onChange="{{ it.set.addon }}" placeholder="Add-on: ice cream ₹80" style="border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:10px 12px;font:400 15px 'DM Sans',sans-serif;color:#2b2118">
+                    </label>
+                    <label style="display:flex;flex-direction:column;gap:6px">
+                      <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Subsection heading</span>
+                      <input type="text" value="{{ it.f.group }}" onChange="{{ it.set.group }}" placeholder="e.g. Matcha — leave blank for none" style="border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:10px 12px;font:400 15px 'DM Sans',sans-serif;color:#2b2118">
+                    </label>
+                    <div style="display:flex;flex-direction:column;gap:6px;grid-column:1/-1">
+                      <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Photo</span>
+                      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+                        <div style="{{ it.thumbStyle }}"></div>
+                        <input type="text" value="{{ it.f.image }}" onChange="{{ it.set.image }}" placeholder="assets/items/thukpa.jpg or a full URL" style="flex:1;min-width:200px;border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:10px 12px;font:400 14px 'DM Sans',sans-serif;color:#2b2118">
+                        <label style="border:1px solid rgba(78,61,42,.3);background:#fffdf8;font:600 10px 'DM Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;padding:10px 14px;cursor:pointer">Upload<input type="file" accept="image/*" onChange="{{ it.onUpload }}" style="display:none"></label>
+                      </div>
+                      <span style="font:400 11px/1.4 'DM Sans',sans-serif;color:#75695a">{{ it.uploadHint }}</span>
+                    </div>
+                    <div style="grid-column:1/-1;display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding-top:4px">
+                      <button type="button" onClick="{{ it.onMoveUp }}" style="border:1px solid rgba(78,61,42,.3);background:#fffdf8;font:600 10px 'DM Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;padding:9px 14px;cursor:pointer;color:#2b2118">↑ Move up</button>
+                      <button type="button" onClick="{{ it.onMoveDown }}" style="border:1px solid rgba(78,61,42,.3);background:#fffdf8;font:600 10px 'DM Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;padding:9px 14px;cursor:pointer;color:#2b2118">↓ Move down</button>
+                      <div style="flex:1"></div>
+                      <button type="button" onClick="{{ it.onDelete }}" style="border:1px solid rgba(162,84,58,.5);background:transparent;color:#7c3f2b;font:600 10px 'DM Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;padding:9px 14px;cursor:pointer" style-hover="background:rgba(162,84,58,.08)">{{ it.deleteLabel }}</button>
+                    </div>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+
+          <sc-if value="{{ noItems }}" hint-placeholder-val="{{ false }}">
+            <div style="border:1px dashed rgba(78,61,42,.3);padding:34px;text-align:center;color:#75695a;font:400 17px 'Cormorant Garamond',serif">No items in this section yet.</div>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isPricesView }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <h1 style="font:600 clamp(30px,4vw,42px) 'Cormorant Garamond',serif;margin:0 0 6px;color:#563b28;text-transform:uppercase;letter-spacing:.02em">Prices</h1>
+          <p style="margin:0 0 22px;color:#75695a;font:italic 16px 'Cormorant Garamond',serif">Every price on one screen. Type over any of them.</p>
+
+          <div style="border:1px solid rgba(173,135,80,.42);background:linear-gradient(135deg,rgba(229,218,199,.7),rgba(255,253,248,.5));padding:18px 20px;margin-bottom:26px;display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap">
+            <label style="display:flex;flex-direction:column;gap:6px">
+              <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Raise or lower every price by</span>
+              <div style="display:flex;align-items:center;gap:8px">
+                <input type="number" step="0.5" value="{{ bulkPct }}" onChange="{{ onBulkPct }}" style="width:100px;border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:10px 12px;font:400 15px 'DM Sans',sans-serif;color:#2b2118">
+                <span style="font:600 15px 'DM Sans',sans-serif;color:#4e5838">%</span>
+              </div>
+            </label>
+            <label style="display:flex;flex-direction:column;gap:6px">
+              <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Round to nearest</span>
+              <select value="{{ bulkRound }}" onChange="{{ onBulkRound }}" style="border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:10px 12px;font:400 15px 'DM Sans',sans-serif;color:#2b2118">
+                <option value="1">₹1</option>
+                <option value="5">₹5</option>
+                <option value="10">₹10</option>
+              </select>
+            </label>
+            <button type="button" onClick="{{ onApplyBulk }}" style="background:#4e5838;color:#fffdf8;border:none;font:600 11px 'DM Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;padding:13px 20px;cursor:pointer" style-hover="background:#68704a">Apply to all</button>
+            <span style="font:400 12px/1.4 'DM Sans',sans-serif;color:#75695a;max-width:32ch">Applies to every number in every price, including multi-price rows. Nothing is published until you hit Publish.</span>
+          </div>
+
+          <sc-for list="{{ priceGroups }}" as="pg" hint-placeholder-count="3">
+            <div style="margin-bottom:30px">
+              <div style="display:flex;align-items:center;gap:14px;margin-bottom:10px">
+                <div style="font:600 12px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#4e5838">{{ pg.title }}</div>
+                <div style="height:1px;background:rgba(78,61,42,.2);flex:1"></div>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:6px 28px">
+                <sc-for list="{{ pg.rows }}" as="r" hint-placeholder-count="4">
+                  <div style="display:flex;gap:14px;align-items:center;padding:7px 0;border-bottom:1px dotted rgba(78,61,42,.28)">
+                    <div style="{{ r.nameStyle }}">{{ r.name }}</div>
+                    <input type="text" value="{{ r.price }}" onChange="{{ r.onChange }}" style="width:150px;flex:0 0 150px;border:1px solid rgba(78,61,42,.24);background:#fffdf8;padding:8px 10px;font:600 14px 'DM Sans',sans-serif;color:#4e5838;text-align:right">
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isSpecialsView }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <h1 style="font:600 clamp(30px,4vw,42px) 'Cormorant Garamond',serif;margin:0 0 6px;color:#563b28;text-transform:uppercase;letter-spacing:.02em">Today's Board</h1>
+          <p style="margin:0 0 22px;color:#75695a;font:italic 16px 'Cormorant Garamond',serif;max-width:60ch">A short list that appears at the top of the menu. Switch it off at the end of the day.</p>
+
+          <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:22px">
+            <button type="button" onClick="{{ onToggleSpecials }}" style="{{ specialsToggleStyle }}">{{ specialsToggleLabel }}</button>
+            <label style="display:flex;flex-direction:column;gap:6px;flex:1;min-width:220px">
+              <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Board heading</span>
+              <input type="text" value="{{ specialsTitle }}" onChange="{{ onSpecialsTitle }}" style="border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:10px 12px;font:400 15px 'DM Sans',sans-serif;color:#2b2118">
+            </label>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
+            <sc-for list="{{ specialRows }}" as="s" hint-placeholder-count="2">
+              <div style="border:1px solid rgba(78,61,42,.2);background:#fffdf8;padding:14px 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;align-items:end">
+                <label style="display:flex;flex-direction:column;gap:6px">
+                  <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Name</span>
+                  <input type="text" value="{{ s.name }}" onChange="{{ s.setName }}" style="border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:9px 11px;font:400 15px 'DM Sans',sans-serif;color:#2b2118">
+                </label>
+                <label style="display:flex;flex-direction:column;gap:6px">
+                  <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Price</span>
+                  <input type="text" value="{{ s.price }}" onChange="{{ s.setPrice }}" style="border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:9px 11px;font:400 15px 'DM Sans',sans-serif;color:#2b2118">
+                </label>
+                <label style="display:flex;flex-direction:column;gap:6px;grid-column:1/-1">
+                  <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Note</span>
+                  <input type="text" value="{{ s.desc }}" onChange="{{ s.setDesc }}" style="border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:9px 11px;font:400 15px 'DM Sans',sans-serif;color:#2b2118">
+                </label>
+                <div style="grid-column:1/-1;display:flex"><button type="button" onClick="{{ s.onDelete }}" style="border:1px solid rgba(162,84,58,.5);background:transparent;color:#7c3f2b;font:600 10px 'DM Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;padding:8px 14px;cursor:pointer">Remove</button></div>
+              </div>
+            </sc-for>
+          </div>
+          <button type="button" onClick="{{ onAddSpecial }}" style="background:#4e5838;color:#fffdf8;border:none;font:600 11px 'DM Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;padding:12px 20px;cursor:pointer" style-hover="background:#68704a">+ Add to the board</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isEventsView }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <div style="display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:6px">
+            <h1 style="font:600 clamp(30px,4vw,42px) 'Cormorant Garamond',serif;margin:0;color:#563b28;text-transform:uppercase;letter-spacing:.02em">Events</h1>
+            <div style="flex:1;min-width:20px"></div>
+            <button type="button" onClick="{{ onAddEvent }}" style="background:#4e5838;color:#fffdf8;border:none;font:600 11px 'DM Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;padding:12px 20px;cursor:pointer" style-hover="background:#68704a">+ Add event</button>
+          </div>
+          <p style="margin:0 0 20px;color:#75695a;font:italic 16px 'Cormorant Garamond',serif;max-width:60ch">Registrations go to your Google Form. Paste its link once below and every event uses it, or give an event its own link.</p>
+
+          <label style="display:flex;flex-direction:column;gap:6px;margin-bottom:26px;max-width:640px">
+            <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Default Google Form link</span>
+            <input type="text" value="{{ formUrl }}" onChange="{{ onFormUrl }}" placeholder="https://docs.google.com/forms/d/e/…/viewform" style="border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:10px 12px;font:400 14px 'DM Sans',sans-serif;color:#2b2118">
+          </label>
+
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ eventRows }}" as="e" hint-placeholder-count="2">
+              <div style="border:1px solid rgba(78,61,42,.2);background:#fffdf8;padding:16px 18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;align-items:end">
+                <label style="display:flex;flex-direction:column;gap:6px;grid-column:1/-1">
+                  <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Title</span>
+                  <input type="text" value="{{ e.title }}" onChange="{{ e.setTitle }}" style="border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:10px 12px;font:400 16px 'DM Sans',sans-serif;color:#2b2118">
+                </label>
+                <label style="display:flex;flex-direction:column;gap:6px">
+                  <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Date</span>
+                  <input type="text" value="{{ e.date }}" onChange="{{ e.setDate }}" placeholder="Sat 19 Sep" style="border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:10px 12px;font:400 15px 'DM Sans',sans-serif;color:#2b2118">
+                </label>
+                <label style="display:flex;flex-direction:column;gap:6px">
+                  <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Time</span>
+                  <input type="text" value="{{ e.time }}" onChange="{{ e.setTime }}" placeholder="6:30 pm" style="border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:10px 12px;font:400 15px 'DM Sans',sans-serif;color:#2b2118">
+                </label>
+                <label style="display:flex;flex-direction:column;gap:6px">
+                  <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Price</span>
+                  <input type="text" value="{{ e.price }}" onChange="{{ e.setPrice }}" placeholder="₹600" style="border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:10px 12px;font:400 15px 'DM Sans',sans-serif;color:#2b2118">
+                </label>
+                <label style="display:flex;flex-direction:column;gap:6px">
+                  <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Seats note</span>
+                  <input type="text" value="{{ e.seats }}" onChange="{{ e.setSeats }}" placeholder="4 seats left" style="border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:10px 12px;font:400 15px 'DM Sans',sans-serif;color:#2b2118">
+                </label>
+                <label style="display:flex;flex-direction:column;gap:6px;grid-column:1/-1">
+                  <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Description</span>
+                  <textarea rows="2" value="{{ e.desc }}" onChange="{{ e.setDesc }}" style="border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:10px 12px;font:400 15px/1.45 'DM Sans',sans-serif;color:#2b2118;resize:vertical"></textarea>
+                </label>
+                <label style="display:flex;flex-direction:column;gap:6px">
+                  <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Own form link (optional)</span>
+                  <input type="text" value="{{ e.registerUrl }}" onChange="{{ e.setUrl }}" style="border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:10px 12px;font:400 13px 'DM Sans',sans-serif;color:#2b2118">
+                </label>
+                <label style="display:flex;flex-direction:column;gap:6px">
+                  <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Photo path or URL</span>
+                  <input type="text" value="{{ e.image }}" onChange="{{ e.setImage }}" style="border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:10px 12px;font:400 13px 'DM Sans',sans-serif;color:#2b2118">
+                </label>
+                <div style="grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap">
+                  <button type="button" onClick="{{ e.onToggleHidden }}" style="{{ e.hiddenStyle }}">{{ e.hiddenLabel }}</button>
+                  <div style="flex:1"></div>
+                  <button type="button" onClick="{{ e.onDelete }}" style="border:1px solid rgba(162,84,58,.5);background:transparent;color:#7c3f2b;font:600 10px 'DM Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;padding:9px 14px;cursor:pointer">Delete event</button>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+
+          <sc-if value="{{ noEventRows }}" hint-placeholder-val="{{ true }}">
+            <div style="border:1px dashed rgba(78,61,42,.3);padding:34px;text-align:center;color:#75695a;font:400 17px 'Cormorant Garamond',serif">No events yet.</div>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isSettingsView }}" hint-placeholder-val="{{ false }}">
+        <div style="max-width:720px">
+          <h1 style="font:600 clamp(30px,4vw,42px) 'Cormorant Garamond',serif;margin:0 0 6px;color:#563b28;text-transform:uppercase;letter-spacing:.02em">Setup</h1>
+          <p style="margin:0 0 26px;color:#75695a;font:italic 16px/1.4 'Cormorant Garamond',serif">Connect this panel to your GitHub repository once, and Publish writes changes straight to the live site.</p>
+
+          <div style="border:1px solid rgba(78,61,42,.22);background:#fffdf8;padding:20px 22px;margin-bottom:22px">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+              <div style="{{ tokenDotStyle }}"></div>
+              <div style="font:600 12px 'DM Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#4e5838">{{ tokenStateLabel }}</div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px">
+              <label style="display:flex;flex-direction:column;gap:6px">
+                <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Owner</span>
+                <input type="text" value="{{ ghOwner }}" onChange="{{ onGhOwner }}" style="border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:10px 12px;font:400 14px 'DM Sans',sans-serif;color:#2b2118">
+              </label>
+              <label style="display:flex;flex-direction:column;gap:6px">
+                <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Repository</span>
+                <input type="text" value="{{ ghRepo }}" onChange="{{ onGhRepo }}" style="border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:10px 12px;font:400 14px 'DM Sans',sans-serif;color:#2b2118">
+              </label>
+              <label style="display:flex;flex-direction:column;gap:6px">
+                <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Branch</span>
+                <input type="text" value="{{ ghBranch }}" onChange="{{ onGhBranch }}" style="border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:10px 12px;font:400 14px 'DM Sans',sans-serif;color:#2b2118">
+              </label>
+              <label style="display:flex;flex-direction:column;gap:6px;grid-column:1/-1">
+                <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Fine-grained access token</span>
+                <input type="password" value="{{ ghToken }}" onChange="{{ onGhToken }}" placeholder="github_pat_…" autocomplete="off" style="border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:10px 12px;font:400 14px 'DM Sans',sans-serif;color:#2b2118">
+              </label>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
+              <button type="button" onClick="{{ onSaveToken }}" style="background:#4e5838;color:#fffdf8;border:none;font:600 11px 'DM Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;padding:12px 20px;cursor:pointer" style-hover="background:#68704a">Save connection</button>
+              <button type="button" onClick="{{ onClearToken }}" style="border:1px solid rgba(78,61,42,.3);background:transparent;color:#2b2118;font:600 11px 'DM Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;padding:12px 20px;cursor:pointer">Forget token</button>
+            </div>
+            <p style="margin:16px 0 0;color:#75695a;font:400 13px/1.6 'DM Sans',sans-serif">The token is kept in this browser only — never in the repository. Create it at <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens</a> with <strong>Contents: Read and write</strong> on this one repository. If you'd rather not use a token, use Export JSON and upload the file to GitHub yourself.</p>
+          </div>
+
+          <div style="border:1px solid rgba(78,61,42,.22);background:#fffdf8;padding:20px 22px">
+            <div style="font:600 12px 'DM Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#4e5838;margin-bottom:16px">Cafe details</div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px">
+              <label style="display:flex;flex-direction:column;gap:6px;grid-column:1/-1">
+                <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Address</span>
+                <input type="text" value="{{ cafeAddress }}" onChange="{{ onCafeAddress }}" style="border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:10px 12px;font:400 14px 'DM Sans',sans-serif;color:#2b2118">
+              </label>
+              <label style="display:flex;flex-direction:column;gap:6px">
+                <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Phone</span>
+                <input type="text" value="{{ cafePhone }}" onChange="{{ onCafePhone }}" style="border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:10px 12px;font:400 14px 'DM Sans',sans-serif;color:#2b2118">
+              </label>
+              <label style="display:flex;flex-direction:column;gap:6px">
+                <span style="font:600 9px 'DM Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ad8750">Instagram handle</span>
+                <input type="text" value="{{ cafeInsta }}" onChange="{{ onCafeInsta }}" style="border:1px solid rgba(78,61,42,.28);background:#fffdf8;padding:10px 12px;font:400 14px 'DM Sans',sans-serif;color:#2b2118">
+              </label>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const LS_GH = "thecafe.admin.gh";
+const LS_PREVIEW = "thecafe.preview.menu";
+
+const BTN_NAV = "text-align:left;border:none;background:transparent;cursor:pointer;padding:9px 10px;font:600 11px 'DM Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#75695a;border-radius:3px;display:flex;justify-content:space-between;gap:8px;align-items:center";
+const BTN_NAV_ON = "text-align:left;border:none;background:#4e5838;cursor:pointer;padding:9px 10px;font:600 11px 'DM Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#fffdf8;border-radius:3px;display:flex;justify-content:space-between;gap:8px;align-items:center";
+const CHIP_OFF = "border:1px solid rgba(78,61,42,.28);background:transparent;color:#75695a;font:600 10px 'DM Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;padding:8px 12px;cursor:pointer;border-radius:999px;white-space:nowrap";
+const CHIP_WARN = "border:1px solid #a2543a;background:rgba(162,84,58,.12);color:#7c3f2b;font:600 10px 'DM Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;padding:8px 12px;cursor:pointer;border-radius:999px;white-space:nowrap";
+const CHIP_ON = "border:1px solid #4e5838;background:#4e5838;color:#fffdf8;font:600 10px 'DM Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;padding:8px 12px;cursor:pointer;border-radius:999px;white-space:nowrap";
+const CHIP_NAV = "flex:0 0 auto;border:1px solid rgba(78,61,42,.26);background:transparent;color:#75695a;font:600 10px 'DM Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;padding:0 14px;min-height:42px;cursor:pointer;border-radius:999px;white-space:nowrap;display:flex;align-items:center;gap:7px";
+const CHIP_NAV_ON = "flex:0 0 auto;border:1px solid #4e5838;background:#4e5838;color:#fffdf8;font:600 10px 'DM Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;padding:0 14px;min-height:42px;cursor:pointer;border-radius:999px;white-space:nowrap;display:flex;align-items:center;gap:7px";
+
+function utf8ToB64(str) {
+  const bytes = new TextEncoder().encode(str);
+  let bin = "";
+  bytes.forEach(b => { bin += String.fromCharCode(b); });
+  return btoa(bin);
+}
+function slug(s) {
+  return String(s || "item").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40) || "item";
+}
+
+class Component extends DCLogic {
+  state = {
+    draft: null, loadError: "", view: "menu", secIdx: 0, openKey: "",
+    dirty: false, status: "", statusKind: "idle", busy: false,
+    confirmDelete: "", bulkPct: 0, bulkRound: "1",
+    vw: typeof window === "undefined" ? 1200 : window.innerWidth,
+    gh: { owner: "thehimalayanexperience", repo: "thecafe", branch: "main", token: "" }
+  };
+
+  isMobile() { return this.state.vw < 860; }
+
+  componentWillUnmount() { if (this._onResize) window.removeEventListener("resize", this._onResize); }
+
+  componentDidMount() {
+    this._onResize = () => {
+      const w = window.innerWidth;
+      if ((w < 860) !== (this.state.vw < 860) || Math.abs(w - this.state.vw) > 40) this.setState({ vw: w });
+    };
+    window.addEventListener("resize", this._onResize);
+    this._onResize();
+    let gh = this.state.gh;
+    try {
+      const raw = localStorage.getItem(LS_GH);
+      if (raw) gh = Object.assign({}, gh, JSON.parse(raw));
+    } catch (e) { /* ignore */ }
+    this.setState({ gh });
+    fetch("data/menu.json", { cache: "no-store" })
+      .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      .then(d => this.setState({ draft: d }))
+      .catch(e => this.setState({ loadError: String(e.message || e) }));
+  }
+
+  mutate(fn) {
+    const d = JSON.parse(JSON.stringify(this.state.draft));
+    fn(d);
+    this.setState({ draft: d, dirty: true, status: "", statusKind: "idle" });
+  }
+
+  flatSections() {
+    const d = this.state.draft;
+    if (!d) return [];
+    const out = [];
+    d.menus.forEach((m, mi) => m.sections.forEach((s, si) => out.push({ mi, si, sec: s, menuLabel: m.label })));
+    return out;
+  }
+
+  curSec() { return this.flatSections()[this.state.secIdx] || null; }
+
+  // ---------- publishing ----------
+
+  async ghRequest(path, opts) {
+    const { owner, repo, token } = this.state.gh;
+    const res = await fetch("https://api.github.com/repos/" + owner + "/" + repo + "/contents/" + path, Object.assign({
+      headers: {
+        Authorization: "Bearer " + token,
+        Accept: "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28"
+      }
+    }, opts || {}));
+    return res;
+  }
+
+  async putFile(path, b64, message) {
+    const { branch } = this.state.gh;
+    let sha;
+    const get = await this.ghRequest(path + "?ref=" + encodeURIComponent(branch));
+    if (get.ok) sha = (await get.json()).sha;
+    else if (get.status !== 404) throw new Error("GitHub " + get.status + " reading " + path);
+    const body = { message, content: b64, branch };
+    if (sha) body.sha = sha;
+    const put = await this.ghRequest(path, { method: "PUT", body: JSON.stringify(body) });
+    if (!put.ok) {
+      let detail = "";
+      try { detail = (await put.json()).message || ""; } catch (e) { /* ignore */ }
+      throw new Error("GitHub " + put.status + (detail ? " — " + detail : ""));
+    }
+    return put.json();
+  }
+
+  async publish() {
+    const { token, owner, repo } = this.state.gh;
+    if (!token) { this.setState({ view: "settings", status: "Add a token first, or use Export JSON", statusKind: "warn" }); return; }
+    if (!owner || !repo) { this.setState({ view: "settings", status: "Owner and repository are required", statusKind: "warn" }); return; }
+    this.setState({ busy: true, status: "Publishing…", statusKind: "idle" });
+    try {
+      const json = JSON.stringify(this.state.draft, null, 2) + "\n";
+      await this.putFile("data/menu.json", utf8ToB64(json), "Update menu from admin panel");
+      this.setState({ busy: false, dirty: false, status: "Published — live in about a minute", statusKind: "ok" });
+    } catch (e) {
+      this.setState({ busy: false, status: String(e.message || e), statusKind: "error" });
+    }
+  }
+
+  exportJson() {
+    const json = JSON.stringify(this.state.draft, null, 2) + "\n";
+    const url = URL.createObjectURL(new Blob([json], { type: "application/json" }));
+    const a = document.createElement("a");
+    a.href = url; a.download = "menu.json";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    this.setState({ status: "menu.json downloaded — upload it to data/ in your repo", statusKind: "ok" });
+  }
+
+  preview() {
+    try { localStorage.setItem(LS_PREVIEW, JSON.stringify(this.state.draft)); } catch (e) { /* ignore */ }
+    window.open("index.dc.html?preview=1", "_blank");
+  }
+
+  async uploadImage(file, apply) {
+    const { token, branch } = this.state.gh;
+    const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
+    const path = "assets/items/" + slug(file.name.replace(/\.[^.]+$/, "")) + "-" + Date.now() + "." + ext;
+    const b64 = await new Promise((res, rej) => {
+      const fr = new FileReader();
+      fr.onload = () => res(String(fr.result).split(",")[1]);
+      fr.onerror = rej;
+      fr.readAsDataURL(file);
+    });
+    if (!token) {
+      this.setState({ status: "Connect a token to upload photos, or paste an image URL instead", statusKind: "warn", view: "settings" });
+      return;
+    }
+    this.setState({ busy: true, status: "Uploading photo…", statusKind: "idle" });
+    try {
+      await this.putFile(path, b64, "Add menu photo " + path);
+      apply(path);
+      this.setState({ busy: false, status: "Photo uploaded to " + path, statusKind: "ok" });
+    } catch (e) {
+      this.setState({ busy: false, status: String(e.message || e), statusKind: "error" });
+    }
+    void branch;
+  }
+
+  applyBulk() {
+    const pct = parseFloat(this.state.bulkPct) || 0;
+    const round = parseInt(this.state.bulkRound, 10) || 1;
+    if (!pct) { this.setState({ status: "Enter a percentage first", statusKind: "warn" }); return; }
+    const bump = txt => String(txt || "").replace(/\d+(\.\d+)?/g, m => {
+      const v = parseFloat(m) * (1 + pct / 100);
+      return String(Math.max(0, Math.round(v / round) * round));
+    });
+    this.mutate(d => {
+      d.menus.forEach(m => m.sections.forEach(s => (s.items || []).forEach(i => { if (i.price) i.price = bump(i.price); })));
+    });
+    this.setState({ status: (pct > 0 ? "Raised" : "Lowered") + " every price by " + Math.abs(pct) + "% — review, then publish", statusKind: "ok" });
+  }
+
+  // ---------- view builders ----------
+
+  buildItemRows() {
+    const cur = this.curSec();
+    if (!cur) return [];
+    const mob = this.isMobile();
+    const items = cur.sec.items || [];
+    return items.map((raw, idx) => {
+      const key = cur.sec.id + ":" + idx;
+      const open = this.state.openKey === key;
+      const edit = (field, val) => this.mutate(d => { d.menus[cur.mi].sections[cur.si].items[idx][field] = val; });
+      const move = delta => this.mutate(d => {
+        const arr = d.menus[cur.mi].sections[cur.si].items;
+        const to = idx + delta;
+        if (to < 0 || to >= arr.length) return;
+        const [x] = arr.splice(idx, 1);
+        arr.splice(to, 0, x);
+      });
+      const bits = [];
+      if (raw.tag) bits.push(raw.tag);
+      if (raw.group) bits.push("under “" + raw.group + "”");
+      if (raw.variants && raw.variants.length) bits.push(raw.variants.length + " variants");
+      if (raw.image) bits.push("photo");
+      const armed = this.state.confirmDelete === key;
+      return {
+        name: raw.name || "Untitled item",
+        price: raw.price || "—",
+        summary: bits.length ? bits.join(" · ") : (raw.desc || "").slice(0, 70),
+        open,
+        editLabel: open ? "Close" : "Edit",
+        cardStyle: "border:1px solid " + (open ? "#ad8750" : "rgba(78,61,42,.2)") +
+          ";background:#fffdf8;padding:14px 16px;min-width:0" + (raw.hidden ? ";opacity:.55" : ""),
+        topRowStyle: mob
+          ? "display:flex;flex-direction:column;gap:10px;align-items:stretch;min-width:0"
+          : "display:flex;gap:14px;align-items:center;flex-wrap:wrap;min-width:0",
+        titleRowStyle: mob
+          ? "display:flex;gap:12px;align-items:baseline;justify-content:space-between;min-width:0"
+          : "flex:1;min-width:180px;display:flex;gap:14px;align-items:baseline;justify-content:space-between",
+        actionRowStyle: mob
+          ? "display:flex;gap:7px;align-items:center;flex-wrap:wrap"
+          : "display:contents",
+        priceStyle: mob
+          ? "font:600 14px 'DM Sans',sans-serif;color:#4e5838;white-space:nowrap"
+          : "font:600 14px 'DM Sans',sans-serif;color:#4e5838;white-space:nowrap",
+        chipStyleExtra: mob ? "flex:1 1 auto;min-height:42px;justify-content:center;" : "",
+        nameStyle: "font:600 19px/1.15 'Cormorant Garamond',serif;color:#2b2118" + (raw.soldOut ? ";text-decoration:line-through;text-decoration-color:rgba(162,84,58,.6)" : ""),
+        soldOutStyle: (mob ? "flex:1 1 auto;min-height:42px;" : "") + (raw.soldOut ? CHIP_WARN : CHIP_OFF),
+        hiddenStyle: (mob ? "flex:1 1 auto;min-height:42px;" : "") + (raw.hidden ? CHIP_ON : CHIP_OFF),
+        editBtnStyle: (mob ? "flex:1 1 auto;min-height:42px;" : "") +
+          "border:1px solid rgba(78,61,42,.3);background:#fffdf8;color:#2b2118;font:600 10px 'DM Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;padding:8px 14px;cursor:pointer",
+        thumbStyle: raw.image
+          ? "flex:0 0 56px;width:56px;height:56px;background:#e5dac7 url('" + raw.image + "') center/cover;border:1px solid rgba(78,61,42,.2)"
+          : "flex:0 0 56px;width:56px;height:56px;background-image:repeating-linear-gradient(135deg,#e5dac7 0 6px,#eee5d5 6px 12px);border:1px solid rgba(78,61,42,.2)",
+        uploadHint: this.state.gh.token
+          ? "Uploads land in assets/items/ in your repository."
+          : "Paste an image URL, or connect a token in Setup to upload from your phone.",
+        deleteLabel: armed ? "Tap again to delete" : "Delete item",
+        f: {
+          name: raw.name || "", price: raw.price || "", desc: raw.desc || "", tag: raw.tag || "",
+          addon: raw.addon || "", group: raw.group || "", image: raw.image || "",
+          variants: (raw.variants || []).join(", ")
+        },
+        set: {
+          name: e => edit("name", e.target.value),
+          price: e => edit("price", e.target.value),
+          desc: e => edit("desc", e.target.value),
+          tag: e => edit("tag", e.target.value),
+          addon: e => edit("addon", e.target.value),
+          group: e => edit("group", e.target.value),
+          image: e => edit("image", e.target.value),
+          variants: e => edit("variants", e.target.value.split(",").map(s => s.trim()).filter(Boolean))
+        },
+        onEdit: () => this.setState({ openKey: open ? "" : key, confirmDelete: "" }),
+        onToggleSoldOut: () => edit("soldOut", !raw.soldOut),
+        onToggleHidden: () => edit("hidden", !raw.hidden),
+        onMoveUp: () => move(-1),
+        onMoveDown: () => move(1),
+        onUpload: e => { const f = e.target.files && e.target.files[0]; if (f) this.uploadImage(f, p => edit("image", p)); },
+        onDelete: () => {
+          if (!armed) { this.setState({ confirmDelete: key }); return; }
+          this.setState({ openKey: "", confirmDelete: "" });
+          this.mutate(d => { d.menus[cur.mi].sections[cur.si].items.splice(idx, 1); });
+        }
+      };
+    });
+  }
+
+  buildPriceGroups() {
+    return this.flatSections().map(({ mi, si, sec }) => ({
+      title: sec.title,
+      rows: (sec.items || []).map((raw, idx) => ({
+        name: raw.name || "Untitled",
+        nameStyle: "flex:1;min-width:0;font:400 16px 'Cormorant Garamond',serif;color:#2b2118;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" + (raw.hidden ? ";opacity:.5" : ""),
+        price: raw.price || "",
+        onChange: e => this.mutate(d => { d.menus[mi].sections[si].items[idx].price = e.target.value; })
+      }))
+    }));
+  }
+
+  buildEventRows() {
+    const evs = (this.state.draft && this.state.draft.events) || [];
+    return evs.map((e, idx) => {
+      const edit = (f, v) => this.mutate(d => { d.events[idx][f] = v; });
+      return {
+        title: e.title || "", date: e.date || "", time: e.time || "", price: e.price || "",
+        seats: e.seats || "", desc: e.desc || "", registerUrl: e.registerUrl || "", image: e.image || "",
+        setTitle: ev => edit("title", ev.target.value),
+        setDate: ev => edit("date", ev.target.value),
+        setTime: ev => edit("time", ev.target.value),
+        setPrice: ev => edit("price", ev.target.value),
+        setSeats: ev => edit("seats", ev.target.value),
+        setDesc: ev => edit("desc", ev.target.value),
+        setUrl: ev => edit("registerUrl", ev.target.value),
+        setImage: ev => edit("image", ev.target.value),
+        hiddenLabel: e.hidden ? "Hidden from site" : "Showing on site",
+        hiddenStyle: e.hidden ? CHIP_ON : CHIP_OFF,
+        onToggleHidden: () => edit("hidden", !e.hidden),
+        onDelete: () => this.mutate(d => { d.events.splice(idx, 1); })
+      };
+    });
+  }
+
+  buildSpecialRows() {
+    const items = (this.state.draft && this.state.draft.specials && this.state.draft.specials.items) || [];
+    return items.map((s, idx) => {
+      const edit = (f, v) => this.mutate(d => { d.specials.items[idx][f] = v; });
+      return {
+        name: s.name || "", price: s.price || "", desc: s.desc || "",
+        setName: e => edit("name", e.target.value),
+        setPrice: e => edit("price", e.target.value),
+        setDesc: e => edit("desc", e.target.value),
+        onDelete: () => this.mutate(d => { d.specials.items.splice(idx, 1); })
+      };
+    });
+  }
+
+  renderVals() {
+    const st = this.state;
+    const d = st.draft;
+    const view = st.view;
+    const cur = this.curSec();
+    const gh = st.gh;
+
+    const mob = this.isMobile();
+    const navOn = mob ? CHIP_NAV_ON : BTN_NAV_ON;
+    const navOff = mob ? CHIP_NAV : BTN_NAV;
+
+    const views = [
+      ["menu", "Menu items"], ["prices", "Prices"], ["specials", "Today's board"],
+      ["events", "Events"], ["settings", "Setup"]
+    ].map(([id, label]) => ({
+      label,
+      onClick: () => this.setState({ view: id, openKey: "", confirmDelete: "" }),
+      style: view === id ? navOn : navOff
+    }));
+
+    const sectionTabs = this.flatSections().map((x, i) => ({
+      label: x.sec.title,
+      count: String((x.sec.items || []).length),
+      countStyle: "font:600 10px 'DM Sans',sans-serif;opacity:.65",
+      onClick: () => this.setState({ secIdx: i, openKey: "", confirmDelete: "" }),
+      style: st.secIdx === i ? navOn : navOff
+    }));
+
+    const statusColors = { ok: "#4e5838", warn: "#8a6a1f", error: "#7c3f2b", idle: "#75695a" };
+    const dirtyText = st.dirty ? "Unpublished changes" : "";
+    const statusText = st.status || dirtyText;
+
+    const sp = (d && d.specials) || {};
+
+    return {
+      loading: !d && !st.loadError,
+      loadError: st.loadError,
+
+      views, sectionTabs,
+      isMenuView: view === "menu" && !!d,
+      isPricesView: view === "prices" && !!d,
+      isSpecialsView: view === "specials" && !!d,
+      isEventsView: view === "events" && !!d,
+      isSettingsView: view === "settings",
+
+      currentSectionTitle: cur ? cur.sec.title : "",
+      currentSectionIntro: cur ? (cur.sec.intro || "") : "",
+      sectionPhoto: cur ? (cur.sec.photo || "") : "",
+      sectionPhotoThumbStyle: (cur && cur.sec.photo)
+        ? "flex:0 0 56px;width:56px;height:56px;background:#e5dac7 url('" + cur.sec.photo + "') center/cover;border:1px solid rgba(78,61,42,.2)"
+        : "flex:0 0 56px;width:56px;height:56px;background-image:repeating-linear-gradient(135deg,#e5dac7 0 6px,#eee5d5 6px 12px);border:1px solid rgba(78,61,42,.2)",
+      onSectionPhoto: e => { if (cur) this.mutate(dd => { dd.menus[cur.mi].sections[cur.si].photo = e.target.value; }); },
+      items: this.buildItemRows(),
+      noItems: !!cur && (cur.sec.items || []).length === 0,
+      onAddItem: () => {
+        if (!cur) return;
+        this.mutate(dd => {
+          dd.menus[cur.mi].sections[cur.si].items.unshift({
+            name: "New item", price: "", desc: "", tag: "", variants: [], addon: "", image: "", soldOut: false, hidden: true
+          });
+        });
+        this.setState({ openKey: cur.sec.id + ":0" });
+      },
+
+      priceGroups: this.buildPriceGroups(),
+      bulkPct: st.bulkPct,
+      bulkRound: st.bulkRound,
+      onBulkPct: e => this.setState({ bulkPct: e.target.value }),
+      onBulkRound: e => this.setState({ bulkRound: e.target.value }),
+      onApplyBulk: () => this.applyBulk(),
+
+      specialRows: this.buildSpecialRows(),
+      specialsTitle: sp.title || "",
+      specialsToggleLabel: sp.active ? "Showing on site" : "Off",
+      specialsToggleStyle: sp.active ? CHIP_ON : CHIP_OFF,
+      onToggleSpecials: () => this.mutate(dd => { dd.specials = dd.specials || {}; dd.specials.active = !dd.specials.active; }),
+      onSpecialsTitle: e => this.mutate(dd => { dd.specials = dd.specials || {}; dd.specials.title = e.target.value; }),
+      onAddSpecial: () => this.mutate(dd => {
+        dd.specials = dd.specials || { active: true, title: "Today at the counter", items: [] };
+        dd.specials.items = dd.specials.items || [];
+        dd.specials.items.push({ name: "", price: "", desc: "" });
+      }),
+
+      eventRows: this.buildEventRows(),
+      noEventRows: !!d && ((d.events || []).length === 0),
+      formUrl: (d && d.registrationFormUrl) || "",
+      onFormUrl: e => this.mutate(dd => { dd.registrationFormUrl = e.target.value; }),
+      onAddEvent: () => this.mutate(dd => {
+        dd.events = dd.events || [];
+        dd.events.unshift({ title: "New event", date: "", time: "", desc: "", price: "", seats: "", registerUrl: "", image: "", hidden: true });
+      }),
+
+      ghOwner: gh.owner, ghRepo: gh.repo, ghBranch: gh.branch, ghToken: gh.token,
+      onGhOwner: e => this.setState({ gh: Object.assign({}, gh, { owner: e.target.value }) }),
+      onGhRepo: e => this.setState({ gh: Object.assign({}, gh, { repo: e.target.value }) }),
+      onGhBranch: e => this.setState({ gh: Object.assign({}, gh, { branch: e.target.value }) }),
+      onGhToken: e => this.setState({ gh: Object.assign({}, gh, { token: e.target.value }) }),
+      onSaveToken: () => {
+        try { localStorage.setItem(LS_GH, JSON.stringify(gh)); this.setState({ status: "Connection saved in this browser", statusKind: "ok" }); }
+        catch (err) { this.setState({ status: "Could not save in this browser", statusKind: "error" }); }
+      },
+      onClearToken: () => {
+        try { localStorage.setItem(LS_GH, JSON.stringify(Object.assign({}, gh, { token: "" }))); } catch (err) { /* ignore */ }
+        this.setState({ gh: Object.assign({}, gh, { token: "" }), status: "Token forgotten", statusKind: "ok" });
+      },
+      tokenStateLabel: gh.token ? "Connected to " + gh.owner + "/" + gh.repo : "Not connected — export mode",
+      tokenDotStyle: "width:9px;height:9px;border-radius:999px;background:" + (gh.token ? "#4e5838" : "#ad8750"),
+
+      cafeAddress: (d && d.cafe && d.cafe.address) || "",
+      cafePhone: (d && d.cafe && d.cafe.phone) || "",
+      cafeInsta: (d && d.cafe && d.cafe.instagram) || "",
+      onCafeAddress: e => this.mutate(dd => { dd.cafe.address = e.target.value; }),
+      onCafePhone: e => this.mutate(dd => { dd.cafe.phone = e.target.value; }),
+      onCafeInsta: e => this.mutate(dd => { dd.cafe.instagram = e.target.value; }),
+
+      isMobile: mob,
+
+      shellStyle: mob
+        ? "max-width:1320px;margin:auto;width:100%;flex:1;display:flex;flex-direction:column;min-width:0"
+        : "max-width:1320px;margin:auto;width:100%;flex:1;display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);align-items:start",
+      sidebarStyle: mob
+        ? "border-bottom:1px solid rgba(78,61,42,.18);padding:14px 0 12px;min-width:0;display:flex;flex-direction:column;gap:10px"
+        : "border-right:1px solid rgba(78,61,42,.18);padding:22px 16px 60px;position:sticky;top:74px",
+      navListStyle: mob
+        ? "display:flex;gap:7px;overflow-x:auto;padding:0 14px 2px;scrollbar-width:none"
+        : "display:flex;flex-direction:column;gap:2px",
+      sectionListStyle: mob
+        ? "display:flex;gap:7px;overflow-x:auto;padding:0 14px 2px;scrollbar-width:none"
+        : "display:flex;flex-direction:column;gap:2px",
+      sidebarLabelStyle: mob
+        ? "display:none"
+        : "font:600 9px 'DM Sans',sans-serif;letter-spacing:.22em;text-transform:uppercase;color:#ad8750;margin-bottom:10px",
+      sectionLabelStyle: mob
+        ? "display:none"
+        : "font:600 9px 'DM Sans',sans-serif;letter-spacing:.22em;text-transform:uppercase;color:#ad8750;margin:26px 0 10px",
+      quickLinksStyle: mob
+        ? "display:flex;gap:16px;padding:2px 14px 0;align-items:center"
+        : "margin-top:22px;padding-top:16px;border-top:1px solid rgba(78,61,42,.18);display:flex;flex-direction:column;gap:8px;align-items:flex-start",
+      bodyStyle: mob
+        ? "padding:20px 14px 80px;min-width:0"
+        : "padding:26px 24px 80px;min-width:0",
+      toolbarBtnStyle: (mob ? "flex:1 1 auto;min-height:44px;" : "") +
+        "border:1px solid rgba(78,61,42,.3);background:#fffdf8;color:#2b2118;font:600 11px 'DM Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;padding:11px 18px;cursor:pointer",
+
+      statusText,
+      statusStyle: "font:500 12px 'DM Sans',sans-serif;color:" + (statusColors[st.statusKind] || "#75695a") +
+        ";max-width:34ch;line-height:1.35;" + (mob ? "flex:1 1 100%;text-align:left;order:9" : "text-align:right"),
+      onPreview: () => this.preview(),
+      onExport: () => this.exportJson(),
+      onPublish: () => this.publish(),
+      publishLabel: st.busy ? "Working…" : "Publish",
+      publishStyle: (mob ? "flex:1 1 auto;min-height:44px;" : "") + "border:none;cursor:" + (st.busy ? "wait" : "pointer") +
+        ";background:" + (st.dirty ? "#563b28" : "#4e5838") +
+        ";color:#fffdf8;font:600 11px 'DM Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;padding:12px 22px;opacity:" + (st.busy ? ".65" : "1")
+    };
+  }
+}
+</script>
+</body>
+</html>

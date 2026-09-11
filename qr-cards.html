@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&family=Italianno&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;-webkit-font-smoothing:antialiased}
+  doc-page:not(:defined){visibility:hidden}
+  a{color:#4e5838}
+  a:hover{color:#ad8750}
+</style>
+<script src="./qr.js"></script>
+<script src="./doc-page.js"></script>
+</helmet>
+
+<doc-page size="letter">
+
+  <section class="page" id="table-cards" style="background:#f2ece1;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;font-family:'DM Sans',sans-serif;color:#2b2118">
+
+    <div style="border-right:1px dashed rgba(78,61,42,.35);border-bottom:1px dashed rgba(78,61,42,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.16in;padding:0.42in 0.34in;text-align:center">
+      <img src="assets/logo-dark.png" alt="THE Cafe" style="width:2.05in;height:auto">
+      <div style="font:600 8pt 'DM Sans',sans-serif;letter-spacing:.28em;text-transform:uppercase;color:#ad8750">Scan for the menu</div>
+      <canvas class="qr" width="420" height="420" style="width:1.6in;height:1.6in;display:block"></canvas>
+      <div style="font:italic 13pt 'Cormorant Garamond',serif;color:#563b28;line-height:1.2">Slow down. <span style="font-family:'Italianno',cursive;font-size:1.25em;font-style:normal">Savour.</span></div>
+      <div style="display:flex;align-items:center;gap:0.1in;color:#ad8750;width:1.5in"><div style="height:1px;background:#ad8750;flex:1;opacity:.55"></div><span style="font-size:7pt">✦</span><div style="height:1px;background:#ad8750;flex:1;opacity:.55"></div></div>
+      <div style="font:400 7pt ui-monospace,monospace;letter-spacing:.06em;color:#75695a">{{ shortUrl }}</div>
+    </div>
+
+    <div style="border-bottom:1px dashed rgba(78,61,42,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.16in;padding:0.42in 0.34in;text-align:center">
+      <img src="assets/logo-dark.png" alt="THE Cafe" style="width:2.05in;height:auto">
+      <div style="font:600 8pt 'DM Sans',sans-serif;letter-spacing:.28em;text-transform:uppercase;color:#ad8750">Scan for the menu</div>
+      <canvas class="qr" width="420" height="420" style="width:1.6in;height:1.6in;display:block"></canvas>
+      <div style="font:italic 13pt 'Cormorant Garamond',serif;color:#563b28;line-height:1.2">Slow down. <span style="font-family:'Italianno',cursive;font-size:1.25em;font-style:normal">Savour.</span></div>
+      <div style="display:flex;align-items:center;gap:0.1in;color:#ad8750;width:1.5in"><div style="height:1px;background:#ad8750;flex:1;opacity:.55"></div><span style="font-size:7pt">✦</span><div style="height:1px;background:#ad8750;flex:1;opacity:.55"></div></div>
+      <div style="font:400 7pt ui-monospace,monospace;letter-spacing:.06em;color:#75695a">{{ shortUrl }}</div>
+    </div>
+
+    <div style="border-right:1px dashed rgba(78,61,42,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.16in;padding:0.42in 0.34in;text-align:center">
+      <img src="assets/logo-dark.png" alt="THE Cafe" style="width:2.05in;height:auto">
+      <div style="font:600 8pt 'DM Sans',sans-serif;letter-spacing:.28em;text-transform:uppercase;color:#ad8750">Scan for the menu</div>
+      <canvas class="qr" width="420" height="420" style="width:1.6in;height:1.6in;display:block"></canvas>
+      <div style="font:italic 13pt 'Cormorant Garamond',serif;color:#563b28;line-height:1.2">Slow down. <span style="font-family:'Italianno',cursive;font-size:1.25em;font-style:normal">Savour.</span></div>
+      <div style="display:flex;align-items:center;gap:0.1in;color:#ad8750;width:1.5in"><div style="height:1px;background:#ad8750;flex:1;opacity:.55"></div><span style="font-size:7pt">✦</span><div style="height:1px;background:#ad8750;flex:1;opacity:.55"></div></div>
+      <div style="font:400 7pt ui-monospace,monospace;letter-spacing:.06em;color:#75695a">{{ shortUrl }}</div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.16in;padding:0.42in 0.34in;text-align:center">
+      <img src="assets/logo-dark.png" alt="THE Cafe" style="width:2.05in;height:auto">
+      <div style="font:600 8pt 'DM Sans',sans-serif;letter-spacing:.28em;text-transform:uppercase;color:#ad8750">Scan for the menu</div>
+      <canvas class="qr" width="420" height="420" style="width:1.6in;height:1.6in;display:block"></canvas>
+      <div style="font:italic 13pt 'Cormorant Garamond',serif;color:#563b28;line-height:1.2">Slow down. <span style="font-family:'Italianno',cursive;font-size:1.25em;font-style:normal">Savour.</span></div>
+      <div style="display:flex;align-items:center;gap:0.1in;color:#ad8750;width:1.5in"><div style="height:1px;background:#ad8750;flex:1;opacity:.55"></div><span style="font-size:7pt">✦</span><div style="height:1px;background:#ad8750;flex:1;opacity:.55"></div></div>
+      <div style="font:400 7pt ui-monospace,monospace;letter-spacing:.06em;color:#75695a">{{ shortUrl }}</div>
+    </div>
+
+  </section>
+
+  <section class="page" id="counter-card" style="background:#f2ece1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.34in;padding:1.1in 1in;text-align:center;font-family:'DM Sans',sans-serif;color:#2b2118">
+    <img src="assets/logo-dark.png" alt="THE Cafe" style="width:4.4in;height:auto">
+    <div style="font:600 10pt 'DM Sans',sans-serif;letter-spacing:.34em;text-transform:uppercase;color:#ad8750">Good coffee · Great food · Higher ground</div>
+    <div style="font:500 44pt/0.92 'Cormorant Garamond',serif;color:#563b28;margin:0">Scan for<br>the menu</div>
+    <canvas class="qr" width="720" height="720" style="width:3.1in;height:3.1in;display:block"></canvas>
+    <div style="font:400 11pt ui-monospace,monospace;letter-spacing:.08em;color:#75695a">{{ shortUrl }}</div>
+    <div style="display:flex;align-items:center;gap:0.16in;color:#ad8750;width:3.4in"><div style="height:1px;background:#ad8750;flex:1;opacity:.55"></div><span style="font-size:10pt">✦</span><div style="height:1px;background:#ad8750;flex:1;opacity:.55"></div></div>
+    <div style="font:italic 20pt 'Cormorant Garamond',serif;color:#75695a;max-width:5in;line-height:1.35">In a world of fast food, <span style="color:#563b28">we chose fresh food.</span></div>
+    <div style="font:400 11pt/1.5 'Cormorant Garamond',serif;color:#75695a;max-width:4.6in">Salbari, Springdale Complex, Above Glenarys, opposite Union Bank, Darjeeling – 734002 · +91 92392 02986</div>
+  </section>
+
+</doc-page>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;siteUrl&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;https://thehimalayanexperience.github.io/thecafe/&quot;, &quot;tsType&quot;: &quot;string&quot; }
+}">
+class Component extends DCLogic {
+  componentDidMount() { this.draw(0); }
+  componentDidUpdate() { this.draw(0); }
+
+  url() { return this.props.siteUrl || "https://thehimalayanexperience.github.io/thecafe/"; }
+
+  draw(attempt) {
+    const QR = window.QRLite;
+    if (!QR) {
+      if (attempt < 60) setTimeout(() => this.draw(attempt + 1), 120);
+      return;
+    }
+    const url = this.url();
+    document.querySelectorAll("canvas.qr").forEach(c => {
+      if (c.dataset.qrFor === url) return;
+      const target = parseInt(c.getAttribute("width"), 10) || 420;
+      QR.toCanvas(c, url, { margin: 2, width: target, dark: "#2b2118" });
+      c.dataset.qrFor = url;
+    });
+  }
+
+  renderVals() {
+    const u = this.url();
+    return { shortUrl: u.replace(/^https?:\/\//, "").replace(/\/$/, "") };
+  }
+}
+</script>
+</body>
+</html>

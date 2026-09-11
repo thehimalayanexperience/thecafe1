@@ -1,0 +1,261 @@
+{
+  "cafe": {
+    "name": "THE Cafe",
+    "tagline": "The Himalayan Experience",
+    "kicker": "Good coffee · Great food · Higher ground",
+    "headline": "Slow down.",
+    "headlineScript": "Savour.",
+    "intro": "Custom-roasted coffee, Darjeeling tea, matcha, Himalayan comfort food and global favourites — made for lingering a little longer.",
+    "address": "Salbari, Springdale Complex, Above Glenarys, opposite Union Bank, Darjeeling – 734002",
+    "phone": "+91 92392 02986",
+    "whatsapp": "919239202986",
+    "instagram": "@thecafesiliguri",
+    "instagramUrl": "https://instagram.com/thecafesiliguri",
+    "mapsUrl": "https://www.google.com/maps/place/THE+CAFE/data=!4m7!3m6!1s0x39e42f90425f6ae5:0xa7e9e6dc5e5e338b!8m2!3d26.7657527!4d88.3838322!16s%2Fg%2F11z2d2wjgj!19sChIJ5WpfQpAv5DkRizNeXtzm6ac",
+    "hours": [
+      { "days": "Monday – Saturday", "time": "8:00 am – 10:00 pm" },
+      { "days": "Sunday", "time": "10:00 am – 10:30 pm" }
+    ],
+    "heroPhoto": "assets/photos/cafe-exterior.jpg",
+    "aboutPhoto": "assets/photos/table-wood-art.jpeg",
+    "spacePhotos": ["assets/photos/pourover-table.jpg", "assets/photos/staff-bar.jpg", "assets/photos/interior-shelves.jpeg"],
+    "aboutBeansTitle": "About the beans.",
+    "aboutBeans": "We source from the best and oldest estates in India and around the globe, working directly with farmers to create our own coffee — customized in our roast profile and blends, with a cup score above 86 — so you get the highest quality of specialty coffee possible.",
+    "motto": "SIP · SAVOUR · BELONG",
+    "closing": {
+      "line1": "In a world of fast food,",
+      "emphasis": "we chose fresh food.",
+      "line2": "Thank you for slowing down with us."
+    }
+  },
+
+  "specials": { "active": false, "title": "Today at the counter", "note": "", "items": [] },
+
+  "eventsIntro": "Cuppings, classes and slow evenings. Seats are limited — register and we'll hold yours.",
+  "registrationFormUrl": "",
+  "events": [],
+
+  "menus": [
+    {
+      "id": "beverages",
+      "label": "Drink",
+      "sections": [
+        {
+          "id": "coffee",
+          "title": "Coffee",
+          "intro": "Custom blends and premium single-origin coffee, custom roasted, crafted from slow manual brews to refined Italian espresso classics.",
+          "photo": "assets/photos/latte-art.jpeg",
+          "items": [
+            { "name": "Manual Brews — Pourover & Others", "price": "₹280 / ₹350", "desc": "Single-origin specialty coffee brewed to order using V60 pourover, moka pot, French press, or AeroPress — highlighting clarity and origin character. Ask us about the bean options.", "tag": "House Signature", "variants": ["Premium single origin", "Exclusive reserve"], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Latte / Flat White / Cappuccino", "price": "₹190 / ₹230", "desc": "Smooth espresso with steamed milk and a layer of foam.", "tag": "", "variants": ["Reg", "Large"], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Cranberry Coffee", "price": "₹240", "desc": "Double shot espresso paired with cranberry juice. Hot or iced.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Espresso / Ristretto / Doppio", "price": "₹120 / ₹160 / ₹170", "desc": "A bold, concentrated shot with deep aroma and crema.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Americano", "price": "₹160 / ₹190", "desc": "Espresso softened with hot water for a clean, smooth cup. Hot or iced.", "tag": "", "variants": ["Single shot", "Double shot"], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "House Cold Coffee", "price": "₹190", "desc": "Chilled coffee blended with ice cream — smooth, creamy, indulgent.", "tag": "", "variants": [], "addon": "Add-on: ice cream ₹80", "soldOut": false, "hidden": false },
+            { "name": "Espresso Sunrise / Sunset", "price": "₹240", "desc": "A layered twist of zesty juice topped with a double shot of espresso.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Cold Brew", "price": "₹230 / ₹350", "desc": "Slow-steeped for 18+ hours for a smooth, low-acidity cup. Top it up with milk.", "tag": "", "variants": ["Premium", "Exclusive reserve"], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Affogato", "price": "₹260", "desc": "A scoop of ice cream drowned in a hot shot of espresso.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Coconut Coffee Cloud", "price": "₹240", "desc": "Light and tropical — coconut water layered with rich, foamy premium coffee.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Espresso Bomb", "price": "₹240", "desc": "A concentrated double shot layered over vanilla ice cream, finished with a dusting of cocoa — dessert and coffee in one glass.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Beverage Add-ons", "price": "", "desc": "Hazelnut, caramel, or honey syrup ₹50 · decaf option ₹80 · vegan milk (almond, oat) ₹80", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false }
+          ]
+        },
+        {
+          "id": "tea",
+          "title": "Tea Bar & Matcha",
+          "intro": "Loose leaf teas served cup or pot, and stone-ground ceremonial grade Japanese matcha.",
+          "photo": "assets/photos/tea-matcha.jpg",
+          "items": [
+            { "name": "Silver Needle White Tea", "price": "₹299 / ₹700", "desc": "Handpicked tender buds — silky, delicate, and naturally sweet. High in antioxidants, low in caffeine. The true luxury of teas.", "tag": "Rare Pour", "variants": ["Cup", "Pot"], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Darjeeling First Flush", "price": "₹170 / ₹400", "desc": "The prized first harvest of Darjeeling — light, floral, and elegantly brisk. Ask our hostess about the selections.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Earl Grey", "price": "₹160 / ₹390", "desc": "A timeless tea infused with bergamot — fragrant, bright, and refined.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Unique Blue Tea", "price": "₹170 / ₹400", "desc": "With aromatic spices — a soothing floral infusion with a striking natural hue and a calm, lingering finish.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Herbal & Green Tea Selection", "price": "₹160 / ₹390", "desc": "Lemongrass, hibiscus, chamomile, anti-stress lavender green tea, lemon honey ginger tea, oolong, and more. Ask your server for today's selection.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Matcha Latte", "price": "₹220", "desc": "Stone-ground matcha blended with milk for an earthy finish. Hot or iced.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false, "group": "Matcha" },
+            { "name": "Dirty Matcha Latte", "price": "₹299", "desc": "A refreshing fusion of matcha and coffee with milk and ice.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false, "group": "Matcha" },
+            { "name": "Coconut Matcha Cloud", "price": "₹220", "desc": "Light and refreshing coconut water with freshly whisked matcha.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false, "group": "Matcha" },
+            { "name": "Matcha Sunrise", "price": "₹240", "desc": "Vibrant layers of matcha and orange — bright, refreshing, captivating.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false, "group": "Matcha" },
+            { "name": "Signature Matcha Cloud", "price": "₹250", "desc": "Creamy matcha layered with vibrant fruit — earthy, smooth, and refreshing.", "tag": "", "variants": ["Cranberry", "Strawberry", "Blueberry", "Lychee", "Watermelon", "Peach"], "addon": "", "soldOut": false, "hidden": false, "group": "Matcha" }
+          ]
+        },
+        {
+          "id": "coolers",
+          "title": "Coolers",
+          "intro": "Chilled, handcrafted signature blends to beat the heat and keep you feeling light.",
+          "photo": "assets/photos/iced-coffee-beans.jpeg",
+          "items": [
+            { "name": "Special Coffee Cocktails", "price": "₹450", "desc": "The most premium non-alcoholic cocktails, made with our alcohol-fermented exclusive reserve coffee.", "tag": "House Signature", "variants": ["Smoked whiskey sour", "Mont Blanc with a twist", "Smoked rum cocktail", "Espresso martini"], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Orange Chilli Margarita", "price": "₹290", "desc": "Fresh orange with a gentle chilli kick. Reminds you of sadheko suntala.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Mojito", "price": "₹190", "desc": "Choice of flavours.", "tag": "", "variants": ["Classic Mint", "Passion Fruit", "Blueberry", "Strawberry", "Litchi", "Watermelon"], "addon": "Add-on: matcha ₹80", "soldOut": false, "hidden": false },
+            { "name": "Peach Iced Tea", "price": "₹190", "desc": "Light, refreshing iced tea infused with sweet peach and lime.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "First Flush on the Rocks", "price": "₹220", "desc": "The most premium of Darjeeling teas, served over an ice block.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Fresh Lime Soda", "price": "₹160", "desc": "Fresh lime and sparkling soda — your way: sweet, salted, or mixed.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false }
+          ]
+        },
+        {
+          "id": "chocolate",
+          "title": "Chocolate Factory",
+          "intro": "Rich, comforting chocolate creations — hot, cold, and with coffee.",
+          "photo": "",
+          "items": [
+            { "name": "Velvet Hot Chocolate", "price": "₹240", "desc": "Rich, velvety hot chocolate crowned with chilled cream — silky, indulgent, and perfectly balanced.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Cold Chocolate Shake", "price": "₹240", "desc": "A rich, creamy chocolate shake blended thick for a smooth, decadent finish. Vanilla or strawberry also available.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Mocha", "price": "₹240", "desc": "The perfect latte with rich chocolate and house espresso, hot or iced.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "food",
+      "label": "Eat",
+      "sections": [
+        {
+          "id": "appetizers",
+          "title": "To Share",
+          "intro": "A selection of special appetizers to start your table with.",
+          "photo": "assets/photos/bruschetta.png",
+          "items": [
+            { "name": "Mustangey Aloo", "price": "₹230 / ₹320", "desc": "Crispy potatoes tossed with aromatic Himalayan spices, roasted chilli, garlic, and fresh herbs.", "tag": "House Signature", "variants": ["Veg", "Chicken"], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Himalayan Chicken", "price": "₹280", "desc": "Mountain-style chicken starter infused with Himalayan herbs and spices.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Pahade Pakoda", "price": "₹200 / ₹220 / ₹280", "desc": "Crisp, golden fritters, gently spiced and served with a refined chutney.", "tag": "", "variants": ["Veg", "Paneer", "Chicken"], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Himalayan Crispy Wings / Lollipop", "price": "₹320", "desc": "Crisp chicken wings with a juicy centre, optionally finished with a Himalayan chilli-garlic glaze.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Crispy Fried Chicken Breast", "price": "₹370", "desc": "Tender chicken breast coated in a crisp golden crust, seasoned with aromatic herbs and spices, and fried until perfectly juicy.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Bruschetta", "price": "₹260", "desc": "Crispy sourdough bread topped with herbed cheese, juicy tomatoes, fresh basil, and cracked pepper.", "tag": "", "variants": [], "addon": "Add-on ₹80 each: bacon, ham, salami, mozzarella", "soldOut": false, "hidden": false },
+            { "name": "Crispy Fried Prawn", "price": "₹450", "desc": "Crispy golden prawns, lightly seasoned and fried to perfection, served with a zesty house dip.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Cheesy Pull-Apart Bruschetta", "price": "₹360", "desc": "Golden toasted sourdough topped with melted mozzarella, juicy tomatoes, fresh basil, and cracked pepper, made for pulling apart and sharing.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Mountain Gold Fries", "price": "₹140 / ₹160 / ₹220", "desc": "Crisp, golden fries, lightly salted and perfectly fried — simple, satisfying, and made for easy comfort.", "tag": "", "variants": ["Classic", "Peri peri", "Cheese loaded"], "addon": "", "soldOut": false, "hidden": false }
+          ]
+        },
+        {
+          "id": "himalayas",
+          "title": "From the Himalayas",
+          "intro": "Himalayan comfort, simply served on your table.",
+          "photo": "assets/photos/momo-plate.png",
+          "items": [
+            { "name": "Thukpa", "price": "₹150 / ₹180", "desc": "The hills in a bowl — a calm, nourishing noodle soup with fresh vegetables in a clear broth. Tibetan origin, Darjeeling adaptation.", "tag": "The Himalayan Experience", "variants": ["Veg", "Chicken"], "addon": "Add-on: eggs ₹70", "soldOut": false, "hidden": false },
+            { "name": "Juicy Chicken Momo", "price": "₹190 / ₹220 / ₹270", "desc": "Large Himalayan dumplings filled with juicy minced chicken and Himalayan spices, paired with a spicy chutney.", "tag": "", "variants": ["Steamed", "Fried", "Jhol"], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Himalayan Garden Veg Momo", "price": "₹160 / ₹190 / ₹240", "desc": "Large Himalayan dumplings with fresh local vegetables, served with house-made chilli chutney.", "tag": "", "variants": ["Steamed", "Fried", "Jhol"], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Crispy Faley (2 pieces)", "price": "₹150 / ₹180", "desc": "Golden, flaky pockets with a flavourful vegetable or chicken filling and a house dip made with Himalayan chillies.", "tag": "", "variants": ["Veg", "Chicken"], "addon": "Add-on: extra cheese ₹50", "soldOut": false, "hidden": false },
+            { "name": "Handmade Thenthuk", "price": "₹250 / ₹280 / ₹310 / ₹350 / ₹380", "desc": "A traditional Tibetan hand-pulled flat noodle soup, known for its hearty qualities.", "tag": "", "variants": ["Veg", "Egg", "Chicken", "Prawn", "Mixed"], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Local House Noodles", "price": "₹180 / ₹220 / ₹250 / ₹290 / ₹320", "desc": "Wok-tossed noodles with fresh vegetables, lightly seasoned and balanced with aromatics.", "tag": "", "variants": ["Veg", "Egg", "Chicken", "Prawn", "Mixed"], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "House Fried Rice", "price": "₹180 / ₹220 / ₹250 / ₹290 / ₹320", "desc": "Fragrant rice tossed with crisp vegetables, garlic, and a light soy touch — subtle, smoky, comforting.", "tag": "", "variants": ["Veg", "Egg", "Chicken", "Prawn", "Mixed"], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Chilli Paneer / Chilli Chicken", "price": "₹260 / ₹280", "desc": "Crispy paneer or tender chicken in a bold chilli glaze with peppers and onions.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Soup", "price": "₹140 / ₹170", "desc": "Manchow, hot and sour, sweet corn, or clear.", "tag": "", "variants": ["Veg", "Chicken"], "addon": "", "soldOut": false, "hidden": false }
+          ]
+        },
+        {
+          "id": "global",
+          "title": "From Around the Globe",
+          "intro": "Global classics — from authentic kitchens of France to Italy.",
+          "photo": "assets/photos/global-breakfast.jpg",
+          "items": [
+            { "name": "The Global Grill Meat Platter", "price": "₹550", "desc": "Smoky, savoury, and satisfying. Bacon, ham, chicken, choice of eggs, sausages. Served with black tea or coffee.", "tag": "For the Table", "variants": [], "addon": "Add-on: prawns ₹180", "soldOut": false, "hidden": false },
+            { "name": "Pancakes", "price": "₹320", "desc": "A fluffy stack of three golden pancakes, served warm with honey or maple syrup.", "tag": "", "variants": [], "addon": "Add-on: protein powder ₹130 · sausages / French omelette ₹150", "soldOut": false, "hidden": false },
+            { "name": "Grilled Cheese or Club Sandwich", "price": "₹220 / ₹270", "desc": "Served with a side of house-made fries. Condiments: mayo, chilli mayo, mustard, ketchup.", "tag": "", "variants": [], "addon": "Protein add-ons ₹80 each: eggs, chicken, sausage, bacon · extra veggies/cheese/soya ₹40 each", "soldOut": false, "hidden": false },
+            { "name": "Full English Breakfast", "price": "₹399", "desc": "Eggs, sausages, fries, sautéed veggies, grilled tomatoes, and buttered toast.", "tag": "", "variants": [], "addon": "Add-ons: mashed potatoes, bacon, grilled chicken ₹190", "soldOut": false, "hidden": false },
+            { "name": "Golden Classic French Toast", "price": "₹270", "desc": "Rich custard-soaked thick-cut bread, pan-seared to a golden finish, honey drizzled on top.", "tag": "", "variants": [], "addon": "Add-ons ₹150 each: French omelette, sausage, ice cream", "soldOut": false, "hidden": false },
+            { "name": "Stuffed French Omelette", "price": "₹290", "desc": "Delicate and soft, served with garlic bread. Choose any two stuffings.", "tag": "", "variants": ["Sausages", "Bacon", "Ham", "Chicken", "Cheese"], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Sausages and Eggs", "price": "₹340", "desc": "Craving a lot of sausages? Here you go.", "tag": "", "variants": [], "addon": "Add-on: upgrade to meat platter", "soldOut": false, "hidden": false },
+            { "name": "Spicy Ramen Bowl", "price": "₹320", "desc": "Your favourite ramen with a sunny-side-up or classic boiled egg, made in-house.", "tag": "", "variants": [], "addon": "Add-ons: cheese ₹50 · sausage/chicken/bacon ₹90", "soldOut": false, "hidden": false },
+            { "name": "Italian Classic Pasta", "price": "₹270 / ₹290", "desc": "Penne or spaghetti in Arrabbiata (spicy tomato) or Alfredo (cream and parmesan) sauce.", "tag": "", "variants": ["Veg", "Chicken"], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Fish and Chips", "price": "₹380", "desc": "Crispy battered fish served hot with herb-dusted potato wedges, greens, and house dip.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Classic American Burger", "price": "₹250 / ₹300", "desc": "Juicy house-made grilled patty, crisp lettuce, soft bun, signature sauce. Served with fries.", "tag": "", "variants": ["Veg", "Chicken"], "addon": "", "soldOut": false, "hidden": false }
+          ]
+        },
+        {
+          "id": "sizzlers",
+          "title": "Sizzlers & Rice Bowls",
+          "intro": "Wok-tossed and smoky, built for a hearty meal.",
+          "photo": "assets/photos/sizzlers-real.jpg",
+          "items": [
+            { "name": "Chinese Sizzler / Rice Bowl", "price": "₹550 / ₹450", "desc": "Wok-tossed, stir-fried flavours in a bold soy-garlic sauce, served hot with noodles or fried rice, crisp veggies, and fries.", "tag": "", "variants": ["Veg", "Chicken"], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Mexican Sizzler / Rice Bowl", "price": "₹550 / ₹450", "desc": "Smoky, spiced platter or bowl with Mexican-style sauce, served with rice, sautéed veggies, garlic bread, and fries.", "tag": "", "variants": ["Veg", "Chicken"], "addon": "", "soldOut": false, "hidden": false }
+          ]
+        },
+        {
+          "id": "desserts",
+          "title": "Desserts & Bakery",
+          "intro": "Something sweet, something warm, and a few things worth taking home.",
+          "photo": "assets/photos/desserts.jpg",
+          "items": [
+            { "name": "Sizzling Brownie with Ice Cream", "price": "₹360", "desc": "This one has always been a hit since the 90's! Try it.", "tag": "Chef's Special", "variants": [], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Dahi Chiwra", "price": "₹160", "desc": "Authentic Himalayan comfort dessert. Flattened rice served with house yogurt and jaggery. Feels like home.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Fruit Custard", "price": "₹190", "desc": "Creamy goodness of milk, egg, and seasonal fruits.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Baked Pudding", "price": "₹290", "desc": "A warm, melt-in-your-mouth baked pudding with a rich, silky texture and a delicate caramel finish.", "tag": "", "variants": [], "addon": "Add-on: ice cream ₹90 per scoop", "soldOut": false, "hidden": false },
+            { "name": "Ice Cream / Fried Ice Cream", "price": "₹150 / ₹250", "desc": "Ask us about the selections of the day.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Brownie Affogato", "price": "₹280", "desc": "Warm, fudgy brownie topped with creamy vanilla ice cream and a shot of rich espresso poured over it.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Tiramisu", "price": "₹290", "desc": "Classic Italian comfort dessert. Espresso, mascarpone cheese, soft melt-in-your-mouth feeling.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false },
+            { "name": "Banana Bread", "price": "₹95", "desc": "House-made, indulgent and moist.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false, "group": "Fresh from the Bakery" },
+            { "name": "Chocolate Chip Cookies", "price": "₹50 – ₹140", "desc": "House-made buttery and chocolaty cookies. Ask us about today's selections.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false, "group": "Fresh from the Bakery" },
+            { "name": "Muffin", "price": "₹130", "desc": "House-made premium muffins.", "tag": "", "variants": [], "addon": "", "soldOut": false, "hidden": false, "group": "Fresh from the Bakery" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fitness",
+      "label": "Fit",
+      "sections": [
+        {
+          "id": "fitness-protein-shakes",
+          "title": "Protein Shakes",
+          "intro": "Lean and light meals, protein-rich drinks, fresh salads and better-for-you treats — with nutrition information at a glance.",
+          "photo": "",
+          "items": [
+            { "name": "Himalayan Protein Cold Coffee", "price": "₹270", "desc": "A protein-rich cold coffee with the character of THE Cafe.", "tag": "", "variants": [], "addon": "", "nutrition": "P 27g · C 5g · F 5g · 173 kcal", "soldOut": false, "hidden": false },
+            { "name": "Strawberry Cream Protein Shake", "price": "₹320", "desc": "Creamy strawberry protein shake.", "tag": "", "variants": [], "addon": "", "nutrition": "P 25g · C 20g · F 3g · 207 kcal", "soldOut": false, "hidden": false },
+            { "name": "Peanut Banana Protein Shake", "price": "₹320", "desc": "A rich peanut and banana protein shake.", "tag": "", "variants": [], "addon": "", "nutrition": "P 25g · C 20g · F 10g · 270 kcal", "soldOut": false, "hidden": false },
+            { "name": "Pea Protein Coffee Shake", "price": "₹260", "desc": "Coffee blended with plant-based pea protein.", "tag": "", "variants": [], "addon": "", "nutrition": "P 26g · C 4g · F 1g · 129 kcal", "soldOut": false, "hidden": false }
+          ]
+        },
+        {
+          "id": "fitness-smoothies",
+          "title": "Smoothies & Juices",
+          "intro": "",
+          "photo": "",
+          "items": [
+            { "name": "Green Smoothie", "price": "₹180", "desc": "A fresh green smoothie.", "tag": "", "variants": [], "addon": "", "nutrition": "P 3g · C 15g · F 4g · 88 kcal", "soldOut": false, "hidden": false },
+            { "name": "Apple, Beet, Carrot Juice", "price": "₹220", "desc": "Fresh apple, beet and carrot juice.", "tag": "", "variants": [], "addon": "", "nutrition": "P 0g · C 24g · F 0g · 96 kcal", "soldOut": false, "hidden": false },
+            { "name": "Seasonal Fruit Juice", "price": "₹220", "desc": "Fresh juice made with seasonal fruit.", "tag": "", "variants": [], "addon": "", "nutrition": "P 0g · C 28g · F 0g · 112 kcal", "soldOut": false, "hidden": false },
+            { "name": "Banana Smoothie", "price": "₹220", "desc": "A smooth, naturally sweet banana smoothie.", "tag": "", "variants": [], "addon": "* Add 12 gm extra plant (pea) protein · +₹110", "nutrition": "P 5g · C 38g · F 3g · 188 kcal", "soldOut": false, "hidden": false }
+          ]
+        },
+        {
+          "id": "fitness-salads",
+          "title": "Awesome Salad Bowls",
+          "intro": "",
+          "photo": "assets/photos/salad-bowl.jpeg",
+          "items": [
+            { "name": "Protein Salad", "price": "₹240", "desc": "Choose soya, paneer or egg.", "tag": "", "variants": [], "addon": "", "nutrition": "P 20g · C 10g · F 5g · 165 kcal", "soldOut": false, "hidden": false },
+            { "name": "Chicken Salad", "price": "₹280", "desc": "A light salad with chicken.", "tag": "", "variants": [], "addon": "", "nutrition": "P 27g · C 10g · F 5g · 193 kcal", "soldOut": false, "hidden": false },
+            { "name": "Prawn Salad Bowl", "price": "₹380", "desc": "Fresh prawns in a light salad bowl.", "tag": "", "variants": [], "addon": "", "nutrition": "P 25g · C 10g · F 5g · 185 kcal", "soldOut": false, "hidden": false },
+            { "name": "Tuna Salad", "price": "₹450", "desc": "A protein-focused tuna salad.", "tag": "", "variants": [], "addon": "", "nutrition": "P 17g · C 10g · F 10g · 198 kcal", "soldOut": false, "hidden": false },
+            { "name": "Seasonal Fruit Salad", "price": "₹240", "desc": "Fresh seasonal fruits.", "tag": "", "variants": [], "addon": "", "nutrition": "P 2g · C 20g · F 3g · 115 kcal", "soldOut": false, "hidden": false }
+          ]
+        },
+        {
+          "id": "fitness-meals",
+          "title": "Fit Meals",
+          "intro": "",
+          "photo": "",
+          "items": [
+            { "name": "Meat Platter", "price": "₹550", "desc": "Ham, sausage, bacon, grilled chicken, choice of eggs, tea/coffee (black).", "tag": "Fit Meal", "variants": [], "addon": "", "nutrition": "P 50g · C 10g · F 20g · 420 kcal", "soldOut": false, "hidden": false },
+            { "name": "Whole Wheat Grilled Cheese Sandwich", "price": "₹220", "desc": "A whole wheat grilled cheese sandwich.", "tag": "", "variants": [], "addon": "", "nutrition": "P 8g · C 40g · F 10g · 282 kcal", "soldOut": false, "hidden": false },
+            { "name": "Protein Pancakes", "price": "₹280", "desc": "Protein-focused pancakes.", "tag": "", "variants": [], "addon": "", "nutrition": "P 25g · C 25g · F 7g · 263 kcal", "soldOut": false, "hidden": false },
+            { "name": "French Toast", "price": "₹270", "desc": "French toast with a balanced nutrition profile.", "tag": "", "variants": [], "addon": "Add 10–40 gm extra protein · 40 gm soya / 3 eggs +₹70 · 150 gm meat (chicken / sausage / bacon / ham) +₹150", "nutrition": "P 19g · C 40g · F 10g · 326 kcal", "soldOut": false, "hidden": false }
+          ]
+        },
+        {
+          "id": "fitness-desserts",
+          "title": "Healthy Carbs / Desserts",
+          "intro": "",
+          "photo": "",
+          "items": [
+            { "name": "Tiramisu Protein Overnight Oats", "price": "₹230", "desc": "Protein-rich overnight oats with a tiramisu-inspired finish.", "tag": "", "variants": [], "addon": "", "nutrition": "P 20g · C 35g · F 7g · 283 kcal", "soldOut": false, "hidden": false },
+            { "name": "Protein Mug Cake", "price": "₹250", "desc": "Fresh & hot.", "tag": "", "variants": [], "addon": "", "nutrition": "P 25g · C 10g · F 10g · 230 kcal", "soldOut": false, "hidden": false }
+          ]
+        }
+      ]
+    }
+  ]
+}
